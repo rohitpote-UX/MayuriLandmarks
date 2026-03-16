@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: Magtis;
+  src: url(../public/Fonts/Magtis.otf) format("opentype");
+}

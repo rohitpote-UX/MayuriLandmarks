@@ -1,0 +1,185 @@
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from '@studio-freight/lenis';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
+const Home = () => {
+  const sectionRef = useRef(null);
+  const videoWrapperRef = useRef(null);
+  const textGroupRef = useRef(null);
+  
+  // New specific refs for staggering the initial entrance animation
+  const assuranceTextRef = useRef(null);
+  const qualityTextRef = useRef(null);
+  const paragraphRef = useRef(null);
+
+  useEffect(() => {
+    // 0. Initial Entrance Animation (Awwwards Style Reveal)
+    // Runs once immediately on mount before scrolling begins
+    const entranceCtx = gsap.context(() => {
+      // Hide elements initially to prevent flash of content
+      gsap.set([assuranceTextRef.current, qualityTextRef.current, paragraphRef.current], {
+        opacity: 0,
+        y: 80, // Start lower down
+        clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' // Classic cinematic clip reveal
+      });
+
+      const entranceTl = gsap.timeline({ delay: 0.2 });
+
+      entranceTl
+        .to([assuranceTextRef.current, qualityTextRef.current], {
+          opacity: 1,
+          y: 0,
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          duration: 1.4,
+          stagger: 0.15,
+          ease: 'power4.out',
+        })
+        .to(paragraphRef.current, {
+           opacity: 1,
+           y: 0,
+           clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+           duration: 1.2,
+           ease: 'power3.out',
+        }, '-=1'); // Overlap with the headline animation
+    }, sectionRef);
+
+
+    // 1. Initialize Lenis for smooth scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      touchMultiplier: 2,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // Integrate Lenis rendering loop with GSAP's ticker
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    // Prevent jumpy scrolling
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Cinematic ScrollTrigger Animation Timeline
+    const scrollCtx = gsap.context(() => {
+      // Dynamic calculations based on screen size
+      const isMobile = window.innerWidth < 768; // standard md breakpoint
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=300%', // Total scroll distance (3 viewport heights)
+          scrub: 1.2,    // Smooth GSAP scrubbing
+          pin: true,     // Pin the entire hero section
+          anticipatePin: 1,
+        }
+      });
+
+      // Target X movement to precisely center the right-positioned video:
+      // Desktop: The video width is 55vw, right padding is 5vw. Required distance = -17.5vw
+      // Mobile: Video is mostly centered already (90vw width), so we just scale and barely shift x
+      
+      const xDistance = isMobile ? '0vw' : '-17.5vw';
+      const xMidpoint = isMobile ? '0vw' : '-8.75vw';
+      const maxScale = isMobile ? 1.5 : 2.8;
+
+      tl.to(videoWrapperRef.current, {
+        scale: 1.2,
+        y: isMobile ? '2vh' : '5vh', // Slightly move downward (subtle gravity effect)
+        ease: 'power1.inOut',
+      })
+        .to(videoWrapperRef.current, {
+          scale: isMobile ? 1.35 : 1.6,
+          x: xMidpoint, // Move halfway toward the center
+          y: isMobile ? '4vh' : '8vh',
+          ease: 'power1.inOut',
+        })
+        .to(videoWrapperRef.current, {
+          scale: maxScale, // Scale up massively to swallow the entire viewport
+          x: xDistance, // Fully center layout offset
+          y: isMobile ? '-5vh' : '0vh', // Re-align to vertical center
+          ease: 'power2.inOut',
+        }, 'expand') // Label added to sync timeline hooks
+        // Fade out the left-side text completely as the video envelopes the frame
+        .to(textGroupRef.current, {
+          opacity: 0,
+          y: '-10vh', // Subtle upward drift while fading
+          ease: 'power2.inOut',
+        }, 'expand');
+
+    }, sectionRef);
+
+    // Clean up all hooks on component unmount
+    return () => {
+      entranceCtx.revert();
+      scrollCtx.revert();
+      lenis.destroy();
+      gsap.ticker.remove(lenis.raf);
+    };
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative w-full h-screen bg-white overflow-hidden"
+    >
+      {/* 
+        A. TEXT CONTENT LAYER
+        Positioned absolutely so it doesn't disturb the flex arrangement 
+        of the video and ignores intrinsic layout shifts.
+      */}
+      <div
+        ref={textGroupRef}
+        className="absolute top-0 left-0 w-full h-full flex flex-col justify-start px-4 md:px-[2vw] pt-[15vh] md:pt-[8vh] font-[magtis] z-10 pointer-events-none"
+      >
+        <h1 className="text-[12vh] md:text-[24vh] leading-[11vh] md:leading-[22vh] uppercase font-extrabold whitespace-nowrap text-black pb-2 md:pb-4">
+          <div ref={assuranceTextRef} className="overflow-hidden inline-block pb-1 md:pb-2">Assurance of</div> <br />
+          <div ref={qualityTextRef} className="overflow-hidden block ml-4 md:ml-[15vw] pb-1 md:pb-2">
+            <span className="italic text-[#6CAFBF] font-normal tracking-wide">
+              Quality Life
+            </span>
+          </div>
+        </h1>
+
+        <div ref={paragraphRef} className="overflow-hidden mt-[4vh] md:mt-[3vh]">
+          <p className="border-t border-[#6CAFBF] pt-4 w-[85vw] md:w-1/3 font-sans text-[2vh] md:text-[3vh] leading-relaxed max-w-[90vw] md:max-w-[40vw] text-black/90 font-medium">
+            <span className="text-[#6cafbf] font-extrabold">
+              "Mayuri Landmarks LLP
+            </span> born with a purpose to build projects that breathe life into the dreams of their customers."
+          </p>
+        </div>
+      </div>
+
+      {/* 
+        B. VIDEO CONTAINER LAYER 
+        Sits at the z-0 level natively right-aligned on screen. 
+        Flex guarantees a perfectly scaled 0,0 initial center for GSAP transforms.
+      */}
+      <div className="absolute top-[35vh] md:top-60 left-0 w-full h-full flex items-center justify-center md:justify-end md:pr-[5vw] z-0">
+        <div
+          ref={videoWrapperRef}
+          className="w-[90vw] md:w-[55vw] h-[40vh] md:h-[50vh] origin-center will-change-transform overflow-hidden"
+        >
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover scale-[1.05]" // extra subtle crop to prevent bleeding
+            src="https://felixnieto.b-cdn.net/projects/Loop_web_hero_2025.mp4"
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Home;
