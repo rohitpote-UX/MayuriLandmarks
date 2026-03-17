@@ -138,11 +138,11 @@ const Home = () => {
       */}
       <div
         ref={textGroupRef}
-        className="absolute top-0 left-0 w-full h-full flex flex-col justify-start px-4 md:px-[2vw] pt-[15vh] md:pt-[8vh] font-[magtis] z-10 pointer-events-none"
+        className="absolute top-0 left-0 w-full h-full flex flex-col justify-start px-4 md:px-[2vw] pt-[8vh] md:pt-[8vh] font-[magtis] z-10 pointer-events-none"
       >
-        <h1 className="text-[12vh] md:text-[24vh] leading-[11vh] md:leading-[22vh] uppercase font-extrabold whitespace-nowrap text-black pb-2 md:pb-4">
-          <div ref={assuranceTextRef} className="overflow-hidden inline-block pb-1 md:pb-2">Assurance of</div> <br />
-          <div ref={qualityTextRef} className="overflow-hidden block ml-4 md:ml-[15vw] pb-1 md:pb-2">
+        <h1 className="text-[7vh] md:text-[24vh] leading-[6.5vh] md:leading-[22vh] uppercase font-extrabold whitespace-nowrap text-black pb-2 md:pb-4">
+          <div ref={assuranceTextRef} className="overflow-hidden inline-block pb-1 md:pb-2">Assurance  of</div> <br />
+          <div ref={qualityTextRef} className="overflow-hidden block ml- md:ml-[15vw] pb-1 md:pb-2">
             <span className="italic text-[#6CAFBF] font-normal tracking-wide">
               Quality Life
             </span>

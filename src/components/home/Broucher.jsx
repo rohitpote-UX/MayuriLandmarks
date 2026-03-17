@@ -22,6 +22,7 @@ const Broucher = () => {
 
     const docs = [
         { title: "MAHA RERA NUMBER : P52100049330", link: "#" },
+        { title: "ADHINATHPURAM BROCHURE", link: "#" },
         { title: "ENVIRONMENT CLEARANCE CERTIFICATE", link: "#" },
         { title: "ENVIRONMENT COMPLIANCE CERTIFICATE", link: "#" }
     ];

@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,14 +22,37 @@ const navLinks = [
 
 const legalLinks = ['Privacy Policy', 'Terms of Use', 'Cookie Policy'];
 
+const servicesData = {
+  'Tiling & Painting': {
+    image: '/images/services/tiling.png',
+    desc: 'Exquisite marble tiling and professional minimalist painting for luxury interiors.'
+  },
+  'Renovations': {
+    image: '/images/services/renovations.png',
+    desc: 'Cinematic before-and-after transformations of living spaces into modern masterpieces.'
+  },
+  'Design & Build': {
+    image: '/images/services/design.png',
+    desc: 'Professional architectural modeling and seamless execution from blueprint to structure.'
+  },
+  'Consulting': {
+    image: '/images/services/consulting.png',
+    desc: 'Expert real estate consulting and strategic planning for premium developments.'
+  },
+  'Contracting': {
+    image: '/images/services/contracting.png',
+    desc: 'High-end architectural construction management with premium material handling.'
+  }
+};
+
 const Footer = () => {
   const footerRef = useRef(null);
   const bigTextRef = useRef(null);
   const contentRef = useRef(null);
+  const [activeService, setActiveService] = useState(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-
       // Big brand text horizontal slide in
       gsap.fromTo(bigTextRef.current,
         { xPercent: -8, opacity: 0 },
@@ -59,8 +83,56 @@ const Footer = () => {
   return (
     <footer
       ref={footerRef}
-      className="w-full bg-[#F5F5F0] text-black overflow-hidden"
+      className="w-full bg-[#F5F5F0] text-black overflow-hidden relative"
     >
+      {/* ══════════════════════════════════════════════
+          SERVICE PREVIEW OVERLAY
+      ════════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {activeService && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveService(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/60 backdrop-blur-md cursor-pointer font-[magtis]"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#F5F5F0] rounded-sm overflow-hidden w-full max-w-4xl shadow-2xl cursor-default"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="h-[30vh] md:h-[60vh] overflow-hidden">
+                  <img
+                    src={servicesData[activeService].image}
+                    alt={activeService}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-8 md:p-12 flex flex-col justify-center gap-6">
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[#6CAFBF] text-xs tracking-[0.3em] uppercase font-bold">Service Insight</span>
+                    <h3 className="text-3xl md:text-4xl font-extrabold uppercase leading-none">{activeService}</h3>
+                  </div>
+                  <p className="text-black/60 text-base md:text-lg font-medium leading-relaxed">
+                    {servicesData[activeService].desc}
+                  </p>
+                  <button
+                    onClick={() => setActiveService(null)}
+                    className="mt-4 w-fit px-8 py-4 bg-black text-white text-xs tracking-[0.2em] uppercase font-bold hover:bg-[#6CAFBF] hover:text-black transition-all duration-400"
+                  >
+                    Close Preview
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ══════════════════════════════════════════════
           HUGE BRAND NAME — Letterpress style
@@ -161,10 +233,17 @@ const Footer = () => {
         <div className="flex flex-col gap-6 footer-item">
           <span className="text-[#6CAFBF] text-xs tracking-[0.25em] uppercase font-bold">Services</span>
           <div className="flex flex-col gap-3">
-            {['Tiling & Painting', 'Renovations', 'Design & Build', 'Consulting', 'Contracting'].map(s => (
-              <span key={s} className="text-black/60 text-sm md:text-base font-medium hover:text-black transition-colors duration-300 cursor-default">
+            {Object.keys(servicesData).map(s => (
+              <button
+                key={s}
+                onClick={() => setActiveService(s)}
+                className="text-black/60 text-sm md:text-base font-medium hover:text-black hover:translate-x-2 transition-all duration-300 text-left w-fit group flex items-center gap-2"
+              >
                 {s}
-              </span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                  <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
             ))}
           </div>
         </div>
@@ -175,7 +254,7 @@ const Footer = () => {
           <span className="text-[#6CAFBF] text-xs tracking-[0.25em] uppercase font-bold">Get in Touch</span>
 
           <div className="flex flex-col gap-4">
-            <a href="tel:+919876543210" className="flex items-center gap-3 text-black/70 hover:text-black text-sm font-medium transition-colors duration-300 group">
+            <a href="tel:+918237277775" className="flex items-center gap-3 text-black/70 hover:text-black text-sm font-medium transition-colors duration-300 group">
               <span className="w-6 h-6 rounded-full bg-[#6CAFBF]/15 flex items-center justify-center group-hover:bg-[#6CAFBF]/30 transition-colors duration-300 shrink-0">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6CAFBF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 16.9v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.1 4.18 2 2 0 0 1 5.09 2h3a2 2 0 0 1 2 1.72c.13 1 .37 1.96.7 2.88a2 2 0 0 1-.45 2.11L9.09 9.91a16 16 0 0 0 5 5l1.2-1.2a2 2 0 0 1 2.11-.45c.92.33 1.88.57 2.88.7A2 2 0 0 1 22 16.9z" />
@@ -183,7 +262,7 @@ const Footer = () => {
               </span>
              +91 8237277775
             </a>
-            <a href="mailto:info@mayurilandmarks.com" className="flex items-center gap-3 text-black/70 hover:text-black text-sm font-medium transition-colors duration-300 group">
+            <a href="mailto:sales@mayurilandmarks.com" className="flex items-center gap-3 text-black/70 hover:text-black text-sm font-medium transition-colors duration-300 group">
               <span className="w-6 h-6 rounded-full bg-[#6CAFBF]/15 flex items-center justify-center group-hover:bg-[#6CAFBF]/30 transition-colors duration-300 shrink-0">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6CAFBF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 8L2 7" />

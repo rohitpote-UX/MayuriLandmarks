@@ -55,8 +55,17 @@ const allProjects = [
     type: 'Residential Township',
     year: '2025 (Est.)',
     units: '300+ Units',
-    img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1800&auto=format&fit=crop',
-    thumb: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop',
+    video: 'https://www.mayurilandmarks.com/images/sliders/FlatNew1.mp4',
+    img: 'https://www.mayurilandmarks.com/images/sliders/slide3.jpg',
+    thumb: 'https://www.mayurilandmarks.com/images/sliders/slide3.jpg',
+    images: [
+      'https://www.mayurilandmarks.com/images/sliders/slide3.jpg',
+      'https://www.mayurilandmarks.com/images/sliders/slide2.jpg',
+      'https://www.mayurilandmarks.com/images/sliders/slide1.jpg',
+      'https://www.mayurilandmarks.com/images/sliders/Web2.jpg',
+      'https://www.mayurilandmarks.com/images/sliders/Web1.jpg',
+      'https://www.mayurilandmarks.com/images/sliders/Web3.jpg'
+    ],
     size: 'large',
   },
   {
@@ -243,12 +252,23 @@ const Projects = () => {
           onMouseLeave={() => setHoveredCard(null)}
           key={`feature-${activeTab}`}
         >
-          <div className="relative w-full h-[60vh] md:h-[75vh] overflow-hidden rounded-sm">
-            <img
-              src={filtered[0].img}
-              alt={filtered[0].name}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
-            />
+          <div className="relative w-full h-[60vh] md:h-[75vh] overflow-hidden rounded-sm bg-black">
+            {filtered[0].video ? (
+              <video
+                src={filtered[0].video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+              />
+            ) : (
+              <img
+                src={filtered[0].img}
+                alt={filtered[0].name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
 
@@ -291,56 +311,75 @@ const Projects = () => {
 
 
       {/* ══════════════════════════════════════════════
-          MASONRY GRID — Remaining projects
+          MASONRY GRID — Remaining projects & Additional Images
       ════════════════════════════════════════════════ */}
-      {filtered.length > 1 && (
-        <div
-          ref={gridRef}
-          className="px-4 md:px-[6vw] mt-4 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
-        >
-          {filtered.slice(1).map((project, index) => (
-            <div
-              key={project.id}
-              ref={addCard}
-              className="group relative overflow-hidden rounded-sm cursor-none"
-              style={{ height: index === 0 ? '55vh' : '45vh' }}
-              onMouseEnter={() => setHoveredCard(project.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-            >
-              <img
-                src={project.img}
-                alt={project.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.8s] ease-out group-hover:scale-108"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      <div
+        ref={gridRef}
+        className="px-4 md:px-[6vw] mt-4 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
+      >
+        {/* Remaining projects from filtered list */}
+        {filtered.slice(1).map((project, index) => (
+          <div
+            key={project.id}
+            ref={addCard}
+            className="group relative overflow-hidden rounded-sm cursor-none"
+            style={{ height: index === 0 ? '55vh' : '45vh' }}
+            onMouseEnter={() => setHoveredCard(project.id)}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <img
+              src={project.img}
+              alt={project.name}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.8s] ease-out group-hover:scale-108"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-              {/* Number label */}
-              <span className="absolute top-6 left-6 text-white/30 font-[magtis] text-base font-bold tracking-widest">
-                0{index + 2}
-              </span>
+            <span className="absolute top-6 left-6 text-white/30 font-[magtis] text-base font-bold tracking-widest">
+              0{index + 2}
+            </span>
 
-              {/* Bottom info */}
-              <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col gap-2">
-                <h3 className="font-[magtis] uppercase font-extrabold text-white text-[4vh] md:text-[5vh] leading-[1] tracking-tight group-hover:translate-y-[-4px] transition-transform duration-500 ease-out">
-                  {project.label}
-                </h3>
-                <div className="flex items-center gap-4 text-white/50 text-xs tracking-widest">
-                  <span className="uppercase">{project.type}</span>
-                  <span className="w-1 h-1 rounded-full bg-white/30" />
-                  <span className="uppercase">{project.year}</span>
-                </div>
-              </div>
-
-              {/* Hover: Reveal pill */}
-              <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
-                <span className="bg-[#6CAFBF] text-white text-xs tracking-widest uppercase font-bold px-4 py-2 rounded-full">
-                  {project.units}
-                </span>
+            <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col gap-2">
+              <h3 className="font-[magtis] uppercase font-extrabold text-white text-[4vh] md:text-[5vh] leading-[1] tracking-tight group-hover:translate-y-[-4px] transition-transform duration-500 ease-out">
+                {project.label}
+              </h3>
+              <div className="flex items-center gap-4 text-white/50 text-xs tracking-widest">
+                <span className="uppercase">{project.type}</span>
+                <span className="w-1 h-1 rounded-full bg-white/30" />
+                <span className="uppercase">{project.year}</span>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+
+            <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+              <span className="bg-[#6CAFBF] text-white text-xs tracking-widest uppercase font-bold px-4 py-2 rounded-full">
+                {project.units}
+              </span>
+            </div>
+          </div>
+        ))}
+
+        {/* If the featured project (filtered[0]) has multiple images, show them in the grid too */}
+        {filtered[0]?.images?.slice(1).map((imgUrl, imgIdx) => (
+          <div
+            key={`feat-img-${imgIdx}`}
+            ref={addCard}
+            className="group relative overflow-hidden rounded-sm cursor-none h-[45vh]"
+            onMouseEnter={() => setHoveredCard(`feat-${imgIdx}`)}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <img
+              src={imgUrl}
+              alt={`${filtered[0].label} Gallery`}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.8s] ease-out group-hover:scale-108"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4">
+              <span className="text-white/40 text-[10px] tracking-widest uppercase font-bold">
+                Gallery View
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
 
 
       {/* ══════════════════════════════════════════════
@@ -375,21 +414,29 @@ const Projects = () => {
         className="fixed top-0 left-0 w-[220px] h-[160px] pointer-events-none z-[999] rounded-sm overflow-hidden shadow-2xl opacity-0"
         style={{ transformOrigin: 'center', willChange: 'transform, opacity' }}
       >
-        <div ref={cursorImgRef} className="w-full h-full relative">
+        <div ref={cursorImgRef} className="w-full h-full relative bg-gray-900">
           {allProjects.map(p => (
             <img
               key={p.id}
-              src={p.thumb}
+              src={p.thumb || p.img}
               alt={p.name}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-400 ${hoveredCard === p.id ? 'opacity-100' : 'opacity-0'}`}
             />
           ))}
+          {/* Gallery images thumb support */}
+          {filtered[0]?.images?.map((imgUrl, idx) => (
+            <img
+              key={`feat-thumb-${idx}`}
+              src={imgUrl}
+              alt="Gallery Preview"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-400 ${hoveredCard === `feat-${idx}` ? 'opacity-100' : 'opacity-0'}`}
+            />
+          ))}
         </div>
         <div className="absolute inset-0 bg-black/15" />
-        {/* Label inside cursor */}
         <div className="absolute bottom-3 left-3 right-3">
           <span className="text-white text-[10px] tracking-widest uppercase font-bold block">
-            {allProjects.find(p => p.id === hoveredCard)?.label || ''}
+            {allProjects.find(p => p.id === hoveredCard)?.label || (typeof hoveredCard === 'string' && hoveredCard.startsWith('feat') ? filtered[0].label : '')}
           </span>
         </div>
       </div>

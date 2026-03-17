@@ -36,8 +36,6 @@ const contactInfo = [
   },
 ];
 
-const services = ['Tiling & Painting', 'Renovations', 'Design & Build', 'Consulting', 'General Contracting'];
-
 const Contact = () => {
   const sectionRef = useRef(null);
   const headlineRef = useRef(null);
@@ -46,7 +44,7 @@ const Contact = () => {
   const infoRefs = useRef([]);
 
   const [formState, setFormState] = useState({
-    name: '', email: '', phone: '', service: '', message: ''
+    name: '', phone: '', interestedIn: '', budget: '', message: ''
   });
   const [focused, setFocused] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -203,7 +201,7 @@ const Contact = () => {
           {!submitted ? (
             <form onSubmit={handleSubmit} className="flex flex-col gap-10">
 
-              {/* Name + Email row */}
+              {/* Name + Phone row */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Name */}
                 <div className="relative">
@@ -219,56 +217,59 @@ const Contact = () => {
                   <label htmlFor="name" className={labelClass('name')}>Full Name</label>
                 </div>
 
-                {/* Email */}
+                {/* Phone */}
                 <div className="relative">
                   <input
-                    type="email" name="email" id="email" autoComplete="off" required
-                    value={formState.email}
+                    type="tel" name="phone" id="phone" autoComplete="off" required
+                    value={formState.phone}
                     onChange={handleChange}
-                    onFocus={() => setFocused('email')}
+                    onFocus={() => setFocused('phone')}
                     onBlur={() => setFocused(null)}
-                    placeholder="Email Address"
-                    className={inputClass('email')}
+                    placeholder="Phone Number"
+                    className={inputClass('phone')}
                   />
-                  <label htmlFor="email" className={labelClass('email')}>Email Address</label>
+                  <label htmlFor="phone" className={labelClass('phone')}>Phone Number</label>
                 </div>
               </div>
 
-              {/* Phone */}
-              <div className="relative">
-                <input
-                  type="tel" name="phone" id="phone" autoComplete="off"
-                  value={formState.phone}
-                  onChange={handleChange}
-                  onFocus={() => setFocused('phone')}
-                  onBlur={() => setFocused(null)}
-                  placeholder="Phone Number"
-                  className={inputClass('phone')}
-                />
-                <label htmlFor="phone" className={labelClass('phone')}>Phone Number</label>
-              </div>
+              {/* Looking for / Interested In Select */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="relative">
+                  <select
+                    name="interestedIn" id="interestedIn" required
+                    value={formState.interestedIn}
+                    onChange={handleChange}
+                    onFocus={() => setFocused('interestedIn')}
+                    onBlur={() => setFocused(null)}
+                    className={`${inputClass('interestedIn')} cursor-pointer`}
+                    style={{ WebkitAppearance: 'none', background: 'transparent' }}
+                  >
+                    <option value="" disabled className="text-black bg-white">Interested In</option>
+                    <option value="1BHK" className="text-black bg-white">1 BHK</option>
+                    <option value="2BHK" className="text-black bg-white">2 BHK</option>
+                    <option value="3BHK" className="text-black bg-white">3 BHK</option>
+                    <option value="Shop" className="text-black bg-white">Commercial Shop</option>
+                    <option value="Other" className="text-black bg-white">Other</option>
+                  </select>
+                  <label htmlFor="interestedIn" className={labelClass('interestedIn')}>Looking For</label>
+                  <svg className="absolute right-0 bottom-4 text-white/30 pointer-events-none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </div>
 
-              {/* Service Select */}
-              <div className="relative">
-                <select
-                  name="service" id="service" required
-                  value={formState.service}
-                  onChange={handleChange}
-                  onFocus={() => setFocused('service')}
-                  onBlur={() => setFocused(null)}
-                  className={`${inputClass('service')} cursor-pointer`}
-                  style={{ WebkitAppearance: 'none', background: 'transparent' }}
-                >
-                  <option value="" disabled className="text-black bg-white">Select a Service</option>
-                  {services.map(s => (
-                    <option key={s} value={s} className="text-black bg-white">{s}</option>
-                  ))}
-                </select>
-                <label htmlFor="service" className={labelClass('service')}>I'm Interested In</label>
-                {/* Custom arrow */}
-                <svg className="absolute right-0 bottom-4 text-white/30 pointer-events-none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M6 9l6 6 6-6"/>
-                </svg>
+                {/* Budget */}
+                <div className="relative">
+                  <input
+                    type="text" name="budget" id="budget" autoComplete="off"
+                    value={formState.budget}
+                    onChange={handleChange}
+                    onFocus={() => setFocused('budget')}
+                    onBlur={() => setFocused(null)}
+                    placeholder="Your Budget"
+                    className={inputClass('budget')}
+                  />
+                  <label htmlFor="budget" className={labelClass('budget')}>Your Budget</label>
+                </div>
               </div>
 
               {/* Message */}
@@ -319,7 +320,7 @@ const Contact = () => {
                 </p>
               </div>
               <button
-                onClick={() => { setSubmitted(false); setFormState({ name:'', email:'', phone:'', service:'', message:'' }); gsap.fromTo(formRef.current, { opacity:0, y:20 }, { opacity:1, y:0, duration:0.6, ease:'power3.out' }); }}
+                onClick={() => { setSubmitted(false); setFormState({ name:'', phone:'', interestedIn:'', budget:'', message:'' }); gsap.fromTo(formRef.current, { opacity:0, y:20 }, { opacity:1, y:0, duration:0.6, ease:'power3.out' }); }}
                 className="text-[#6CAFBF] text-sm tracking-widest uppercase font-bold border-b border-[#6CAFBF]/40 hover:border-[#6CAFBF] pb-1 transition-colors duration-300"
               >
                 Send Another Message
@@ -380,4 +381,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
