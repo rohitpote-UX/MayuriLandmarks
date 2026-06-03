@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Enable class-based manual dark mode toggling */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @font-face {
   font-family: Magtis;
   src: url(../public/Fonts/Magtis.otf) format("opentype");

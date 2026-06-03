@@ -89,7 +89,7 @@ const Broucher = () => {
     }, []);
 
     return (
-        <section ref={sectionRef} className="w-full bg-white text-black py-[10vh] px-4 md:px-[6vw] overflow-visible">
+        <section ref={sectionRef} className="w-full bg-white dark:bg-[#0f0f0f] transition-colors duration-1000 my-[10vh] text-black dark:text-white py-[10vh] px-4 md:px-[6vw] overflow-visible">
             {/* Rule of Thirds Layout (1/3 Left Sidebar, 2/3 Right Content) */}
             <div className="w-full flex flex-col md:flex-row gap-8 md:gap-16 items-start relative">
                 
@@ -113,20 +113,20 @@ const Broucher = () => {
                 </div>
 
                 {/* Right Side: 2/3 Interactive Rows Grid */}
-                <div className="w-full md:w-2/3 flex flex-col mt-0 border-t border-black/20 relative z-10 bg-white">
+                <div className="w-full md:w-2/3 flex flex-col mt-0 border-t border-black/20 dark:border-white/20 relative z-10 bg-white dark:bg-[#0f0f0f] transition-colors duration-1000">
                     {docs.map((doc, index) => (
                         <a 
                             key={index}
                             ref={addToRefs}
                             href={doc.link}
-                            className="group relative w-full border-b border-black/20 py-8 md:py-14 px-2 md:px-10 overflow-hidden flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 xl:gap-0 cursor-pointer block"
+                            className="group relative w-full border-b border-black/20 dark:border-white/20 py-8 md:py-14 px-2 md:px-10 overflow-hidden flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 xl:gap-0 cursor-pointer block transition-colors duration-1000"
                         >
                             {/* Hover Background - Clip Path Reveal sweeps from bottom to top */}
                             <div className="absolute inset-0 bg-[#6CAFBF] [clip-path:inset(100%_0_0_0)] group-hover:[clip-path:inset(0_0_0_0)] transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] z-0" />
                             
                             {/* Text Content */}
                             <div className="relative z-10 w-full xl:w-3/4">
-                                <h3 className="text-[3.5vh] md:text-[5vh] leading-tight font-[magtis] uppercase font-extrabold text-black group-hover:text-white transition-colors duration-500">
+                                <h3 className="text-[3.5vh] md:text-[5vh] leading-tight font-[magtis] uppercase font-extrabold text-black dark:text-white group-hover:text-white transition-colors duration-500">
                                     {doc.title}
                                 </h3>
                             </div>

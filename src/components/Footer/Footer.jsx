@@ -83,7 +83,7 @@ const Footer = () => {
   return (
     <footer
       ref={footerRef}
-      className="w-full bg-[#F5F5F0] text-black overflow-hidden relative"
+      className="w-full bg-[#F5F5F0] dark:bg-[#0f0f0f] text-black dark:text-white overflow-hidden relative transition-colors duration-1000"
     >
       {/* ══════════════════════════════════════════════
           SERVICE PREVIEW OVERLAY
@@ -137,10 +137,10 @@ const Footer = () => {
       {/* ══════════════════════════════════════════════
           HUGE BRAND NAME — Letterpress style
       ════════════════════════════════════════════════ */}
-      <div className="border-t border-black/8 pt-[8vh] overflow-hidden">
+      <div className="border-t border-black/8 dark:border-white/10 pt-[8vh] overflow-hidden transition-colors duration-1000">
         <h2
           ref={bigTextRef}
-          className="font-[magtis] uppercase font-extrabold leading-none tracking-tighter text-black/[0.07] select-none pointer-events-none whitespace-nowrap"
+          className="font-[magtis] uppercase font-extrabold leading-none tracking-tighter text-black/[0.07] dark:text-white/[0.07] select-none pointer-events-none whitespace-nowrap transition-colors duration-1000"
           style={{ fontSize: 'clamp(4rem, 14vw, 18rem)' }}
         >
           Adhinathpuram
@@ -298,7 +298,7 @@ const Footer = () => {
       {/* ══════════════════════════════════════════════
           BOTTOM BAR
       ════════════════════════════════════════════════ */}
-      <div className="border-t border-black/8 px-4 md:px-[6vw] py-6 flex flex-col md:flex-row items-center justify-between gap-4 footer-item">
+      <div className="border-t border-black/8 dark:border-white/10 px-4 md:px-[6vw] py-6 flex flex-col md:flex-row items-center justify-between gap-4 footer-item transition-colors duration-1000">
         <span className="text-black/30 text-xs tracking-widest">
           © {year} Mayuri Landmarks LLP. All rights reserved.
         </span>

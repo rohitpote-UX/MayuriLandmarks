@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useNavigate } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
+export const services = [
   {
     number: '01',
     title: 'Tiling & Painting',
@@ -36,6 +37,7 @@ const services = [
 ];
 
 const Services = () => {
+  const navigate = useNavigate();
   const sectionRef = useRef(null);
   const headlineRef = useRef(null);
   const titleSpans = useRef([]);
@@ -117,7 +119,7 @@ const Services = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full bg-[#F5F5F0] text-black overflow-hidden">
+    <section ref={sectionRef} className="w-full bg-[#F5F5F0] dark:bg-[#0f0f0f] text-black dark:text-white transition-colors duration-1000 overflow-hidden">
 
       {/* ══════════════════════════════════════════════
           SECTION 1 — CINEMATIC HEADER
@@ -212,11 +214,10 @@ const Services = () => {
                     <button
                       key={i}
                       onClick={() => setActiveIndex(i)}
-                      className={`transition-all duration-500 rounded-full ${
-                        i === activeIndex
+                      className={`transition-all duration-500 rounded-full ${i === activeIndex
                           ? 'w-8 h-2 bg-[#6CAFBF]'
                           : 'w-2 h-2 bg-white/30 hover:bg-white/60'
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
@@ -228,7 +229,7 @@ const Services = () => {
                     className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#6CAFBF] hover:text-[#6CAFBF] transition-all duration-300"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M19 12H5M5 12L11 18M5 12L11 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M19 12H5M5 12L11 18M5 12L11 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
                   <button
@@ -236,7 +237,7 @@ const Services = () => {
                     className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#6CAFBF] hover:text-[#6CAFBF] transition-all duration-300"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
                 </div>
@@ -252,13 +253,11 @@ const Services = () => {
               key={index}
               onMouseEnter={() => setActiveIndex(index)}
               onClick={() => setActiveIndex(index)}
-              className={`group flex items-center gap-3 text-right transition-all duration-500 ${
-                activeIndex === index ? 'opacity-100' : 'opacity-40 hover:opacity-75'
-              }`}
+              className={`group flex items-center gap-3 text-right transition-all duration-500 ${activeIndex === index ? 'opacity-100' : 'opacity-40 hover:opacity-75'
+                }`}
             >
-              <div className={`transition-all duration-500 h-[2px] ${
-                activeIndex === index ? 'w-8 bg-[#6CAFBF]' : 'w-3 bg-white group-hover:w-5 group-hover:bg-white'
-              }`} />
+              <div className={`transition-all duration-500 h-[2px] ${activeIndex === index ? 'w-8 bg-[#6CAFBF]' : 'w-3 bg-white group-hover:w-5 group-hover:bg-white'
+                }`} />
               <span className="text-white font-[magtis] uppercase text-xs tracking-widest hidden md:block">
                 {service.title}
               </span>
@@ -282,6 +281,7 @@ const Services = () => {
               key={index}
               ref={addRow}
               onMouseEnter={() => setActiveIndex(index)}
+              onClick={() => navigate(`/service/${service.number}`)}
               className="w-full flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-12 border-t border-black/10 py-8 md:py-12 group cursor-pointer"
             >
               <div className="flex items-baseline gap-4 md:gap-8 flex-1">
@@ -303,7 +303,7 @@ const Services = () => {
 
               <div className="self-start md:self-auto text-black/25 group-hover:text-[#6CAFBF] group-hover:translate-x-2 transition-all duration-500">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="-rotate-45">
-                  <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             </div>

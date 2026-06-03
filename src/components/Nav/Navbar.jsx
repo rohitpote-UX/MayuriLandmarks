@@ -1,5 +1,5 @@
-import { ArrowRightIcon, LocateIcon } from 'lucide-react'
-import React, { useState } from 'react'
+import { ArrowRightIcon, LocateIcon, Sun, Moon } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
 import Menu from './Menu'
 
 const scrollTo = (id) => {
@@ -10,6 +10,32 @@ const scrollTo = (id) => {
 const Navbar = () => {
     // State to handle the full-screen menu visibility
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    // State to handle the dark/light theme
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        // Initialize theme based on user's system preference or past selection
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            setIsDarkMode(true);
+            document.documentElement.classList.add('dark');
+        } else {
+            setIsDarkMode(false);
+            document.documentElement.classList.remove('dark');
+        }
+    }, []);
+
+    const toggleTheme = () => {
+        if (isDarkMode) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            setIsDarkMode(false);
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            setIsDarkMode(true);
+        }
+    };
 
     return (
         <>
@@ -50,7 +76,26 @@ const Navbar = () => {
                             <span className="whitespace-nowrap">Location</span> <LocateIcon size={16} />
                         </div>
                     </button>
+
+                    {/* Desktop Theme Toggle Button */}
+                    <button 
+                        onClick={toggleTheme}
+                        className="relative hidden md:flex items-center justify-center text-[#6CAFBF] hover:text-white border border-[#6CAFBF] hover:bg-[#6CAFBF] w-12 h-12 rounded-full overflow-hidden transition-all duration-300 hover:scale-[1.03] ml-2"
+                        aria-label="Toggle Dark Mode"
+                    >
+                        <Sun size={20} strokeWidth={1.5} className={`absolute transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${isDarkMode ? 'opacity-0 scale-50 rotate-90' : 'opacity-100 scale-100 rotate-0'}`} />
+                        <Moon size={20} strokeWidth={1.5} className={`absolute transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${isDarkMode ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-50 -rotate-90'}`} />
+                    </button>
                     
+                    {/* Mobile Theme Toggle Button */}
+                    <button 
+                        onClick={toggleTheme}
+                        className="relative flex md:hidden items-center justify-center text-[#6CAFBF] hover:text-white border border-[#6CAFBF] hover:bg-[#6CAFBF] w-10 h-10 rounded-full overflow-hidden transition-all duration-300 hover:scale-[1.03] ml-2"
+                        aria-label="Toggle Dark Mode"
+                    >
+                        <Sun size={18} strokeWidth={1.5} className={`absolute transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${isDarkMode ? 'opacity-0 scale-50 rotate-90' : 'opacity-100 scale-100 rotate-0'}`} />
+                        <Moon size={18} strokeWidth={1.5} className={`absolute transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${isDarkMode ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-50 -rotate-90'}`} />
+                    </button>
                     {/* Premium Awwwards Menu Button - Visible on All Sizes */}
                     <button 
                         onClick={() => setIsMenuOpen(true)}

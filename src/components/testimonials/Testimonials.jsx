@@ -134,10 +134,10 @@ const Testimonials = () => {
   const active = testimonials[activeIndex];
 
   return (
-    <section ref={sectionRef} className="w-full bg-[#080808] text-white overflow-hidden">
+    <section ref={sectionRef} className="w-full bg-[#F5F5F0] dark:bg-[#080808] transition-colors duration-1000 text-black dark:text-white overflow-hidden">
 
       {/* ══ TICKER BAND ══ */}
-      <div className="w-full border-b border-white/8 py-4 overflow-hidden">
+      <div className="w-full border-b border-black/8 dark:border-white/8 py-4 overflow-hidden">
         <div ref={tickerRef} className="flex gap-0 w-max">
           {[...Array(10)].map((_, i) => (
             <span key={i} className="shrink-0 text-[#6CAFBF] text-xs tracking-[0.3em] uppercase font-bold pr-16 whitespace-nowrap">
@@ -168,27 +168,27 @@ const Testimonials = () => {
 
           {/* Progress counter + controls */}
           <div className="flex flex-col items-start md:items-end gap-5 shrink-0">
-            <div className="font-[magtis] font-extrabold text-white/10 leading-none"
+            <div className="font-[magtis] font-extrabold text-black/10 dark:text-white/10 leading-none"
               style={{ fontSize: 'clamp(3rem, 7vw, 7rem)' }}
             >
               {String(activeIndex + 1).padStart(2, '0')}
-              <span className="text-white/20" style={{ fontSize: '0.45em' }}>
+              <span className="text-black/20 dark:text-white/20" style={{ fontSize: '0.45em' }}>
                 /{String(testimonials.length).padStart(2, '0')}
               </span>
             </div>
             <div className="flex items-center gap-3">
               <button onClick={() => goTo(activeIndex - 1)}
-                className="w-12 h-12 rounded-full border border-white/15 flex items-center justify-center text-white/40 hover:border-[#6CAFBF] hover:text-[#6CAFBF] transition-all duration-300">
+                className="w-12 h-12 rounded-full border border-black/15 dark:border-white/15 flex items-center justify-center text-black/40 dark:text-white/40 hover:border-[#6CAFBF] hover:text-[#6CAFBF] transition-all duration-300">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 18M5 12L11 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </button>
               <button onClick={() => goTo(activeIndex + 1)}
-                className="w-12 h-12 rounded-full border border-white/15 flex items-center justify-center text-white/40 hover:border-[#6CAFBF] hover:text-[#6CAFBF] transition-all duration-300">
+                className="w-12 h-12 rounded-full border border-black/15 dark:border-white/15 flex items-center justify-center text-black/40 dark:text-white/40 hover:border-[#6CAFBF] hover:text-[#6CAFBF] transition-all duration-300">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </button>
             </div>
           </div>
         </div>
-        <div className="w-full h-[1px] bg-white/8 mt-[6vh]" />
+        <div className="w-full h-[1px] bg-black/8 dark:bg-white/8 mt-[6vh]" />
       </div>
 
 
@@ -200,7 +200,7 @@ const Testimonials = () => {
           <div className="flex flex-col justify-between gap-8 py-6 md:py-8">
             <Stars count={active.rating} />
 
-            <blockquote className="text-white/85 font-sans font-medium leading-[1.65]"
+            <blockquote className="text-black/85 dark:text-white/85 font-sans font-medium leading-[1.65]"
               style={{ fontSize: 'clamp(1.1rem, 2.4vw, 1.7rem)' }}
             >
               <span className="font-[magtis] text-[#6CAFBF] leading-none" style={{ fontSize: '3em', lineHeight: '0.6' }}>"</span>
@@ -209,15 +209,15 @@ const Testimonials = () => {
               <span className="font-[magtis] text-[#6CAFBF] leading-none" style={{ fontSize: '3em', lineHeight: '0' }}>"</span>
             </blockquote>
 
-            <div className="flex items-center gap-4 border-t border-white/8 pt-6">
+            <div className="flex items-center gap-4 border-t border-black/8 dark:border-white/8 pt-6">
               <img src={active.avatar} alt={active.name}
                 className="w-14 h-14 rounded-full object-cover border-2 border-[#6CAFBF]/40 shrink-0"
                 onError={(e) => { e.target.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(active.name) + '&background=6CAFBF&color=000'; }}
               />
               <div>
-                <p className="text-white font-bold text-base md:text-lg leading-tight">{active.name}</p>
+                <p className="text-black dark:text-white font-bold text-base md:text-lg leading-tight">{active.name}</p>
                 <p className="text-[#6CAFBF] text-xs tracking-[0.2em] uppercase font-bold mt-0.5">{active.project}</p>
-                <p className="text-white/30 text-xs mt-0.5">{active.role}</p>
+                <p className="text-black/30 dark:text-white/30 text-xs mt-0.5">{active.role}</p>
               </div>
             </div>
           </div>
@@ -240,7 +240,7 @@ const Testimonials = () => {
                 <div
                   key={i}
                   ref={addPanel}
-                  className="border border-white/8 rounded-[2px]"
+                  className="border border-black/8 dark:border-white/8 rounded-[2px]"
                   style={{ background: i % 3 === 1 ? 'rgba(108,175,191,0.04)' : 'rgba(255,255,255,0.02)' }}
                 />
               ))}
@@ -249,13 +249,13 @@ const Testimonials = () => {
             {/* Project label */}
             <div className="absolute bottom-5 left-5 z-10 flex flex-col gap-1">
               <span className="text-[#6CAFBF] text-xs tracking-[0.25em] uppercase font-bold">{active.project}</span>
-              <span className="text-white/40 text-xs">{active.role}</span>
+              <span className="text-black/40 dark:text-white/40 text-xs">{active.role}</span>
             </div>
 
             {/* Cyan corner accent */}
             <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-[#6CAFBF] animate-pulse" />
-              <span className="text-white/30 text-[10px] tracking-widest uppercase">Verified</span>
+              <span className="text-black/30 dark:text-white/30 text-[10px] tracking-widest uppercase">Verified</span>
             </div>
           </div>
         </div>
@@ -266,7 +266,7 @@ const Testimonials = () => {
       <div className="px-4 md:px-[6vw] pb-[10vh]">
 
         {/* Progress bar */}
-        <div className="w-full h-[1px] bg-white/10 relative mb-6">
+        <div className="w-full h-[1px] bg-black/10 dark:bg-white/10 relative mb-6">
           <div
             className="absolute top-0 left-0 h-full bg-[#6CAFBF] transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]"
             style={{ width: `${((activeIndex + 1) / testimonials.length) * 100}%` }}
@@ -286,8 +286,8 @@ const Testimonials = () => {
               <div className="absolute inset-0 bg-black/40" />
               {/* Window pane lines */}
               <div className="absolute inset-[3px] grid grid-cols-2 gap-[2px] pointer-events-none">
-                <div className="border border-white/10 rounded-[1px]" />
-                <div className="border border-white/10 rounded-[1px]" />
+                <div className="border border-black/10 dark:border-white/10 rounded-[1px]" />
+                <div className="border border-black/10 dark:border-white/10 rounded-[1px]" />
               </div>
               {/* Active indicator */}
               {i === activeIndex && (
@@ -301,23 +301,23 @@ const Testimonials = () => {
         <div className="flex items-center gap-3 mt-5">
           {testimonials.map((_, i) => (
             <button key={i} onClick={() => goTo(i)}
-              className={`rounded-full transition-all duration-500 ${i === activeIndex ? 'w-8 h-2 bg-[#6CAFBF]' : 'w-2 h-2 bg-white/20 hover:bg-white/40'}`}
+              className={`rounded-full transition-all duration-500 ${i === activeIndex ? 'w-8 h-2 bg-[#6CAFBF]' : 'w-2 h-2 bg-black/20 dark:bg-white/20 hover:bg-black/40 dark:bg-white/40'}`}
             />
           ))}
-          <span className="ml-auto text-white/20 text-xs tracking-widest">Drag to explore</span>
+          <span className="ml-auto text-black/20 dark:text-white/20 text-xs tracking-widest">Drag to explore</span>
         </div>
       </div>
 
 
       {/* ══ CTA STRIP ══ */}
       <div className="px-4 md:px-[6vw] pb-[12vh]">
-        <div className="w-full border border-white/10 rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-12">
+        <div className="w-full border border-black/10 dark:border-white/10 rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-12">
           <div>
-            <h3 className="font-[magtis] uppercase font-extrabold text-white leading-tight tracking-tight"
+            <h3 className="font-[magtis] uppercase font-extrabold text-black dark:text-white leading-tight tracking-tight"
               style={{ fontSize: 'clamp(1.5rem, 4vw, 3.5rem)' }}>
               Ready to Start Your Journey?
             </h3>
-            <p className="text-white/40 text-sm md:text-base font-medium mt-2">
+            <p className="text-black/40 dark:text-white/40 text-sm md:text-base font-medium mt-2">
               Join thousands of happy families who chose Mayuri Landmarks.
             </p>
           </div>

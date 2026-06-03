@@ -212,7 +212,7 @@ const Amenities = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full bg-[#F5F5F0] text-black overflow-hidden">
+    <section ref={sectionRef} className="w-full bg-[#F5F5F0] dark:bg-[#0f0f0f] text-black dark:text-white transition-colors duration-1000 overflow-hidden">
 
       {/* ══ HEADER ══ */}
       <div className="px-4 md:px-[6vw] pt-[16vh] pb-[8vh]">

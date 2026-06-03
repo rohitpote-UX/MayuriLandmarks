@@ -174,13 +174,18 @@ const WhyUs = () => {
 
   // 2. Handle Mouse Follow Effect (Awwwards Style)
   const handleMouseMove = (e) => {
-    // Calculate the center of the image to perfectly center it on the cursor
+    if (!sectionRef.current) return;
+    
+    const rect = sectionRef.current.getBoundingClientRect();
+    const relX = e.clientX - rect.left;
+    const relY = e.clientY - rect.top;
+
     const imageWidth = window.innerWidth < 768 ? 200 : 400; // responsive image size
     const imageHeight = window.innerWidth < 768 ? 250 : 500;
 
     cursorRef.current = {
-      x: e.clientX - (imageWidth / 2),
-      y: e.clientY - (imageHeight / 2)
+      x: relX - (imageWidth / 2),
+      y: relY - (imageHeight / 2)
     };
 
     if (setX.current && setY.current) {
@@ -206,24 +211,25 @@ const WhyUs = () => {
         duration: 0.5,
         ease: 'power2.out'
       });
-      // Show custom cursor image
+      // Show custom cursor image safely
       gsap.to(cursorImageRef.current, {
         scale: 1,
-        opacity: 1,
+        autoAlpha: 1,
         duration: 0.5,
         ease: 'power3.out'
       });
     } else {
-      // Revert background to light cream
+      // Revert background to light cream or dark mode
+      const targetColor = document.documentElement.classList.contains('dark') ? '#0f0f0f' : '#F5F5F0';
       gsap.to(containerRef.current, {
-        backgroundColor: '#F5F5F0',
+        backgroundColor: targetColor,
         duration: 0.5,
         ease: 'power2.out'
       });
-      // Hide custom cursor image
+      // Hide custom cursor image safely, using autoAlpha to kill shadows
       gsap.to(cursorImageRef.current, {
-        scale: 0.8, // shrink slightly on hide
-        opacity: 0,
+        scale: 0.8,
+        autoAlpha: 0,
         duration: 0.4,
         ease: 'power3.out'
       });
@@ -234,14 +240,13 @@ const WhyUs = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full relative overflow-hidden text-black pt-[15vh] pb-[10vh]"
-      onMouseMove={handleMouseMove}
+      className="w-full relative overflow-hidden text-black dark:text-white pt-[15vh] pb-[10vh] transition-colors duration-1000"
     >
       {/* 
                 We use a separate absolute container layer for the background color shift 
                 so it doesn't trigger layout recalculations.
             */}
-      <div ref={containerRef} className="absolute inset-0 w-full h-full bg-[#F5F5F0] -z-20 pointer-events-none" />
+      <div ref={containerRef} className="absolute inset-0 w-full h-full bg-[#F5F5F0] dark:bg-[#0f0f0f] transition-colors duration-1000 -z-20 pointer-events-none" />
 
       <div className="px-4 md:px-[6vw]">
         {/* 1. Top Area: Headline & Text */}
@@ -439,7 +444,10 @@ const WhyUs = () => {
         <div className={`w-full h-[1px] my-[10vh] transition-colors duration-500 ${hoveredIndex !== null ? 'bg-white/20' : 'bg-black/10'}`}></div>
 
         {/* 4. Bottom Area: Awwwards Big Typography Interactive List */}
-        <div className="w-full flex flex-col mb-[10vh] relative z-20">
+        <div 
+          className="w-full flex flex-col mb-[10vh] relative z-20"
+          onMouseMove={handleMouseMove}
+        >
           <p className={`text-xs md:text-sm font-bold tracking-[0.2em] uppercase mb-[5vh] transition-colors duration-500 ${hoveredIndex !== null ? 'text-white' : 'text-[#6CAFBF]'}`}>
             Our Expertise
           </p>
@@ -471,10 +479,10 @@ const WhyUs = () => {
         </div>
       </div>
 
-      {/* Custom Hover Cursor Image (Fixed to viewport) */}
+      {/* Custom Hover Cursor Image (Absolute to section) */}
       <div
         ref={cursorImageRef}
-        className="fixed top-0 left-0 w-[200px] h-[250px] md:w-[400px] md:h-[500px] pointer-events-none z-0 rounded-sm overflow-hidden shadow-2xl scale-75 opacity-0"
+        className="absolute top-0 left-0 w-[200px] h-[250px] md:w-[400px] md:h-[500px] pointer-events-none z-0 rounded-sm overflow-hidden shadow-2xl scale-75 opacity-0"
         style={{
           transformOrigin: 'center center',
           willChange: 'transform, opacity' // Hardware acceleration hint

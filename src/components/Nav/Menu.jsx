@@ -117,23 +117,23 @@ const Menu = ({ isOpen, onClose }) => {
         <div ref={menuRef} className="fixed inset-0 z-50 invisible">
             {/* Split Screen Background Layers for Double Sweep Effect */}
             <div ref={bgFirstRef} className="absolute inset-0 bg-[#6CAFBF] origin-bottom w-full h-full z-0" />
-            <div ref={bgSecondRef} className="absolute inset-0 bg-[#F5F5F0] origin-bottom w-full h-full z-10" />
+            <div ref={bgSecondRef} className="absolute inset-0 bg-[#F5F5F0] dark:bg-[#0f0f0f] transition-colors duration-1000 origin-bottom w-full h-full z-10" />
 
             {/* Menu Content Wrapper */}
             <div className="relative z-20 w-full h-full flex flex-col justify-between px-4 md:px-10 py-6 md:py-12 overflow-y-auto overflow-x-hidden">
 
                 {/* Header Context (Close Button) */}
-                <div className="flex justify-between items-center text-black">
-                    <img src="https://www.mayurilandmarks.com/assets/images/logo/logo.png" alt="Mayuri" className="w-24 md:w-34 ml-0 md:ml-[2vw]" />
+                <div className="flex justify-between items-center text-black dark:text-white transition-colors duration-1000">
+                    <img src="https://www.mayurilandmarks.com/assets/images/logo/logo.png" alt="Mayuri" className="w-24 md:w-34 ml-0 md:ml-[2vw] dark:invert transition-all duration-1000" />
 
                     <button
                         onClick={onClose}
                         className="group flex items-center gap-2 md:gap-3 cursor-pointer mr-0 md:mr-6 p-2 overflow-hidden hover:scale-[1.05] transition-transform duration-300"
                     >
-                        <span className="uppercase text-[10px] md:text-xs font-bold tracking-[0.2em] text-black transition-colors duration-500 group-hover:text-[#6CAFBF]">
+                        <span className="uppercase text-[10px] md:text-xs font-bold tracking-[0.2em] text-black dark:text-white transition-colors duration-500 group-hover:text-[#6CAFBF]">
                             Close
                         </span>
-                        <X size={24} className="w-5 h-5 md:w-6 md:h-6 text-black group-hover:text-[#6CAFBF] transition-colors duration-300" strokeWidth={1.5} />
+                        <X size={24} className="w-5 h-5 md:w-6 md:h-6 text-black dark:text-white group-hover:text-[#6CAFBF] transition-colors duration-300" strokeWidth={1.5} />
                     </button>
                 </div>
 
@@ -159,7 +159,7 @@ const Menu = ({ isOpen, onClose }) => {
                                     ref={el => linksRef.current[index] = el}
                                     className="origin-bottom-left overflow-hidden pb-1 md:pb-4"
                                 >
-                                    <h1 className="relative text-[6vh] md:text-[10vh] font-[magtis] uppercase leading-[5.5vh] md:leading-[9vh] text-black font-extrabold flex">
+                                    <h1 className="relative text-[6vh] md:text-[10vh] font-[magtis] uppercase leading-[5.5vh] md:leading-[9vh] text-black dark:text-white transition-colors duration-1000 font-extrabold flex">
                                         {/* Original Text Layer (Slides UP and Out) */}
                                         <span className="flex overflow-hidden">
                                             {item.title.split('').map((char, charIndex) => (

@@ -102,15 +102,15 @@ const Contact = () => {
   }, []);
 
   const inputClass = (name) => `
-    w-full bg-transparent border-b-2 pt-6 pb-3 text-white text-base md:text-lg font-medium
+    w-full bg-transparent border-b-2 pt-6 pb-3 text-black dark:text-white text-base md:text-lg font-medium
     placeholder-transparent outline-none transition-all duration-400 peer
     ${focused === name || formState[name]
       ? 'border-[#6CAFBF]'
-      : 'border-white/15 hover:border-white/30'}
+      : 'border-black/15 dark:border-white/15 hover:border-black/30 dark:border-white/30'}
   `;
 
   const labelClass = (name) => `
-    absolute left-0 text-white/40 font-medium tracking-wide transition-all duration-300 pointer-events-none
+    absolute left-0 text-black/40 dark:text-white/40 font-medium tracking-wide transition-all duration-300 pointer-events-none
     ${focused === name || formState[name]
       ? 'top-0 text-xs text-[#6CAFBF] tracking-[0.2em] uppercase'
       : 'top-6 text-base'}
@@ -120,7 +120,7 @@ const Contact = () => {
     <section
       ref={sectionRef}
       id="contact"
-      className="w-full bg-[#0A0A0A] text-white overflow-hidden"
+      className="w-full bg-[#F5F5F0] dark:bg-[#0A0A0A] transition-colors duration-1000 text-black dark:text-white overflow-hidden"
     >
 
       {/* ══════════════════════════════════════════════
@@ -135,7 +135,7 @@ const Contact = () => {
             <div key={i} className="overflow-hidden leading-none">
               <span
                 ref={addTitle}
-                className={`block font-[magtis] uppercase font-extrabold tracking-tighter leading-[0.88] ${i === 1 ? 'text-[#6CAFBF]' : 'text-white'}`}
+                className={`block font-[magtis] uppercase font-extrabold tracking-tighter leading-[0.88] ${i === 1 ? 'text-[#6CAFBF]' : 'text-black dark:text-white'}`}
                 style={{ fontSize: 'clamp(3rem, 10vw, 10rem)' }}
               >
                 {line}
@@ -143,7 +143,7 @@ const Contact = () => {
             </div>
           ))}
         </div>
-        <div className="w-full h-[1px] bg-white/8 mt-[8vh]" />
+        <div className="w-full h-[1px] bg-black/8 dark:bg-white/8 mt-[8vh]" />
       </div>
 
 
@@ -154,7 +154,7 @@ const Contact = () => {
 
         {/* ── LEFT: Contact Details ─────────────────────────────────────────── */}
         <div className="flex flex-col gap-12 pt-2">
-          <p className="text-white/50 text-base md:text-lg font-medium leading-relaxed">
+          <p className="text-black/50 dark:text-white/50 text-base md:text-lg font-medium leading-relaxed">
             We are always open to discuss your project, improve your online presence and help with your challenges. Drop us a message and we'll get back to you within 24 hours.
           </p>
 
@@ -162,12 +162,12 @@ const Contact = () => {
           <div className="flex flex-col gap-8">
             {contactInfo.map((info, i) => (
               <div key={i} ref={addInfo} className="flex items-start gap-5 group">
-                <div className="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-[#6CAFBF] shrink-0 group-hover:bg-[#6CAFBF] group-hover:text-black group-hover:border-[#6CAFBF] transition-all duration-400">
+                <div className="w-11 h-11 rounded-full border border-black/15 dark:border-white/15 flex items-center justify-center text-[#6CAFBF] shrink-0 group-hover:bg-[#6CAFBF] group-hover:text-black group-hover:border-[#6CAFBF] transition-all duration-400">
                   {info.icon}
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[#6CAFBF] text-xs tracking-[0.2em] uppercase font-bold">{info.label}</span>
-                  <span className="text-white/70 text-sm md:text-base font-medium leading-relaxed">{info.value}</span>
+                  <span className="text-black/70 dark:text-white/70 text-sm md:text-base font-medium leading-relaxed">{info.value}</span>
                 </div>
               </div>
             ))}
@@ -181,7 +181,7 @@ const Contact = () => {
                 <a
                   key={social}
                   href="#"
-                  className="text-white/30 text-sm font-semibold tracking-wide hover:text-[#6CAFBF] transition-colors duration-300 border-b border-white/10 hover:border-[#6CAFBF] pb-1"
+                  className="text-black/30 dark:text-white/30 text-sm font-semibold tracking-wide hover:text-[#6CAFBF] transition-colors duration-300 border-b border-black/10 dark:border-white/10 hover:border-[#6CAFBF] pb-1"
                 >
                   {social}
                 </a>
@@ -252,7 +252,7 @@ const Contact = () => {
                     <option value="Other" className="text-black bg-white">Other</option>
                   </select>
                   <label htmlFor="interestedIn" className={labelClass('interestedIn')}>Looking For</label>
-                  <svg className="absolute right-0 bottom-4 text-white/30 pointer-events-none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="absolute right-0 bottom-4 text-black/30 dark:text-white/30 pointer-events-none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M6 9l6 6 6-6"/>
                   </svg>
                 </div>
@@ -297,7 +297,7 @@ const Contact = () => {
                     <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
-                <span className="text-white/20 text-xs leading-relaxed">
+                <span className="text-black/20 dark:text-white/20 text-xs leading-relaxed">
                   We respond within<br />24 hours.
                 </span>
               </div>
@@ -312,10 +312,10 @@ const Contact = () => {
                 </svg>
               </div>
               <div className="flex flex-col gap-3">
-                <h3 className="font-[magtis] uppercase font-extrabold text-white text-[4vh] md:text-[5vh] leading-tight">
+                <h3 className="font-[magtis] uppercase font-extrabold text-black dark:text-white text-[4vh] md:text-[5vh] leading-tight">
                   Message Sent!
                 </h3>
-                <p className="text-white/50 text-base md:text-lg font-medium leading-relaxed max-w-md">
+                <p className="text-black/50 dark:text-white/50 text-base md:text-lg font-medium leading-relaxed max-w-md">
                   Thank you for reaching out to Mayuri Landmarks. Our team will get back to you within 24 hours.
                 </p>
               </div>
@@ -348,15 +348,15 @@ const Contact = () => {
         />
 
         {/* Overlay info card — top-left corner */}
-        <div className="absolute top-6 left-6 md:top-10 md:left-10 z-10 bg-[#0A0A0A]/90 backdrop-blur-md border border-white/10 rounded-sm p-5 md:p-7 flex flex-col gap-3 max-w-xs">
+        <div className="absolute top-6 left-6 md:top-10 md:left-10 z-10 bg-[#0A0A0A]/90 backdrop-blur-md border border-black/10 dark:border-white/10 rounded-sm p-5 md:p-7 flex flex-col gap-3 max-w-xs">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#6CAFBF] animate-pulse" />
             <span className="text-[#6CAFBF] text-xs tracking-[0.25em] uppercase font-bold">Our Location</span>
           </div>
-          <p className="text-white font-bold text-sm md:text-base leading-snug">
+          <p className="text-black dark:text-white font-bold text-sm md:text-base leading-snug">
             Mayuri Adhinathpuram
           </p>
-          <p className="text-white/50 text-xs md:text-sm leading-relaxed">
+          <p className="text-black/50 dark:text-white/50 text-xs md:text-sm leading-relaxed">
             53/8, Wadachi Wadi Road, Undri,<br />Pune – 411 060, Maharashtra
           </p>
           <a
@@ -373,7 +373,7 @@ const Contact = () => {
         </div>
 
         {/* Thin top border */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-white/8 z-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-black/8 dark:bg-white/8 z-10 pointer-events-none" />
       </div>
 
     </section>

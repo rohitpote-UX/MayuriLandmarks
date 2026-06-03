@@ -76,10 +76,9 @@ const Home = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=300%', // Total scroll distance (3 viewport heights)
+          end: '+=150%', // Scale completes over 1.5x screen scroll distance
           scrub: 1.2,    // Smooth GSAP scrubbing
-          pin: true,     // Pin the entire hero section
-          anticipatePin: 1,
+          // Removed pin to allow natural page scrolling
         }
       });
 
@@ -93,26 +92,29 @@ const Home = () => {
 
       tl.to(videoWrapperRef.current, {
         scale: 1.2,
-        y: isMobile ? '2vh' : '5vh', // Slightly move downward (subtle gravity effect)
-        ease: 'power1.inOut',
+        y: isMobile ? '15vh' : '20vh', // Moves down progressively as user scrolls
+        ease: 'none',
+        force3D: true, // Forces hardware acceleration
       })
         .to(videoWrapperRef.current, {
           scale: isMobile ? 1.35 : 1.6,
           x: xMidpoint, // Move halfway toward the center
-          y: isMobile ? '4vh' : '8vh',
-          ease: 'power1.inOut',
+          y: isMobile ? '35vh' : '50vh', // Pushes down the page
+          ease: 'none',
+          force3D: true,
         })
         .to(videoWrapperRef.current, {
           scale: maxScale, // Scale up massively to swallow the entire viewport
           x: xDistance, // Fully center layout offset
-          y: isMobile ? '-5vh' : '0vh', // Re-align to vertical center
-          ease: 'power2.inOut',
+          y: isMobile ? '60vh' : '90vh', // Reaches the bottom of the scroll journey as full screen
+          ease: 'none',
+          force3D: true,
         }, 'expand') // Label added to sync timeline hooks
         // Fade out the left-side text completely as the video envelopes the frame
         .to(textGroupRef.current, {
           opacity: 0,
           y: '-10vh', // Subtle upward drift while fading
-          ease: 'power2.inOut',
+          ease: 'none',
         }, 'expand');
 
     }, sectionRef);
@@ -129,7 +131,7 @@ const Home = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-screen bg-white overflow-hidden"
+      className="relative w-full h-[150vh] md:h-[200vh] bg-white dark:bg-[#0f0f0f] transition-colors duration-1000 overflow-hidden"
     >
       {/* 
         A. TEXT CONTENT LAYER
@@ -140,9 +142,9 @@ const Home = () => {
         ref={textGroupRef}
         className="absolute top-0 left-0 w-full h-full flex flex-col justify-start px-4 md:px-[2vw] pt-[8vh] md:pt-[8vh] font-[magtis] z-10 pointer-events-none"
       >
-        <h1 className="text-[7vh] md:text-[24vh] leading-[6.5vh] md:leading-[22vh] uppercase font-extrabold whitespace-nowrap text-black pb-2 md:pb-4">
-          <div ref={assuranceTextRef} className="overflow-hidden inline-block pb-1 md:pb-2">Assurance  of</div> <br />
-          <div ref={qualityTextRef} className="overflow-hidden block ml- md:ml-[15vw] pb-1 md:pb-2">
+        <h1 className="text-[11.5vw] sm:text-[7vh] md:text-[24vh] leading-[1.1] sm:leading-[6.5vh] md:leading-[22vh] uppercase font-extrabold whitespace-nowrap text-black dark:text-white transition-colors duration-1000 pb-2 md:pb-4">
+          <div ref={assuranceTextRef} className="overflow-hidden inline-block pb-1 md:pb-2">Assurance of</div> 
+          <div ref={qualityTextRef} className="overflow-hidden block ml-[8vw] md:ml-[15vw] pb-1 md:pb-2">
             <span className="italic text-[#6CAFBF] font-normal tracking-wide">
               Quality Life
             </span>
@@ -150,7 +152,7 @@ const Home = () => {
         </h1>
 
         <div ref={paragraphRef} className="overflow-hidden mt-[4vh] md:mt-[3vh]">
-          <p className="border-t border-[#6CAFBF] pt-4 w-[85vw] md:w-1/3 font-sans text-[2vh] md:text-[3vh] leading-relaxed max-w-[90vw] md:max-w-[40vw] text-black/90 font-medium">
+          <p className="border-t border-[#6CAFBF] pt-4 w-[85vw] md:w-1/3 font-sans text-[2vh] md:text-[3vh] leading-relaxed max-w-[90vw] md:max-w-[40vw] text-black/90 dark:text-white/90 transition-colors duration-1000 font-medium">
             <span className="text-[#6cafbf] font-extrabold">
               "Mayuri Landmarks LLP
             </span> born with a purpose to build projects that breathe life into the dreams of their customers."
@@ -163,7 +165,7 @@ const Home = () => {
         Sits at the z-0 level natively right-aligned on screen. 
         Flex guarantees a perfectly scaled 0,0 initial center for GSAP transforms.
       */}
-      <div className="absolute top-[35vh] md:top-60 left-0 w-full h-full flex items-center justify-center md:justify-end md:pr-[5vw] z-0">
+      <div className="absolute top-[5vh] md:top-0 left-0 w-full h-full flex items-center justify-center md:justify-end md:pr-[5vw] z-0">
         <div
           ref={videoWrapperRef}
           className="w-[90vw] md:w-[55vw] h-[40vh] md:h-[50vh] origin-center will-change-transform overflow-hidden"

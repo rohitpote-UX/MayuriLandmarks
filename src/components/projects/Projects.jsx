@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import optimumVideo from '../../assets/Flats_Img/Mayuri Optimum Walkthrough.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +30,7 @@ const allProjects = [
     type: 'Commercial Tower',
     year: '2022',
     units: '200+ Units',
+    video: optimumVideo,
     img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1800&auto=format&fit=crop',
     thumb: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=600&auto=format&fit=crop',
     size: 'small',
@@ -49,8 +52,8 @@ const allProjects = [
   {
     id: 4,
     status: 'ongoing',
-    name: 'Mayuri Infinity',
-    label: 'MAYURI INFINITY II',
+    name: 'Mayuri Adhinathpuram',
+    label: 'MAYURI Adhinathpuram',
     location: 'Pune, Maharashtra',
     type: 'Residential Township',
     year: '2025 (Est.)',
@@ -102,13 +105,9 @@ const Projects = () => {
   const titleLines = useRef([]);
   const gridRef = useRef(null);
   const cardRefs = useRef([]);
-  const cursorRef = useRef(null);
-  const cursorImgRef = useRef(null);
-  const setX = useRef(null);
-  const setY = useRef(null);
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState('completed');
-  const [hoveredCard, setHoveredCard] = useState(null);
 
   titleLines.current = [];
   cardRefs.current = [];
@@ -117,23 +116,6 @@ const Projects = () => {
   const addCard = (el) => el && !cardRefs.current.includes(el) && cardRefs.current.push(el);
 
   const filtered = allProjects.filter(p => p.status === activeTab);
-
-  // Cursor follower for cards
-  const handleMouseMove = (e) => {
-    if (setX.current && setY.current) {
-      setX.current(e.clientX - 160);
-      setY.current(e.clientY - 110);
-    }
-  };
-
-  // Show/hide cursor image on card hover
-  useEffect(() => {
-    if (hoveredCard !== null) {
-      gsap.to(cursorRef.current, { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' });
-    } else {
-      gsap.to(cursorRef.current, { scale: 0.6, opacity: 0, duration: 0.4, ease: 'power3.out' });
-    }
-  }, [hoveredCard]);
 
   // Tab switch — animate grid out then in
   const prevTab = useRef(activeTab);
@@ -150,10 +132,6 @@ const Projects = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-
-      // Cursor quick setters
-      setX.current = gsap.quickTo(cursorRef.current, 'x', { duration: 0.6, ease: 'power3' });
-      setY.current = gsap.quickTo(cursorRef.current, 'y', { duration: 0.6, ease: 'power3' });
 
       // ── Title lines stagger reveal ─────────────────────────────────────────
       gsap.fromTo(titleLines.current,
@@ -186,8 +164,7 @@ const Projects = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#F5F5F0] text-black pt-[18vh] pb-[20vh] overflow-hidden"
-      onMouseMove={handleMouseMove}
+      className="w-full bg-[#F5F5F0] dark:bg-[#0f0f0f] text-black dark:text-white transition-colors duration-1000 pt-[18vh] pb-[20vh] overflow-hidden"
     >
 
       {/* ══════════════════════════════════════════════
@@ -215,23 +192,33 @@ const Projects = () => {
 
         {/* Tab toggle + count */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-black/10 pb-8">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {['completed', 'ongoing'].map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`relative px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all duration-500 rounded-full ${
                   activeTab === tab
-                    ? 'bg-black text-white'
-                    : 'bg-transparent text-black/50 hover:text-black border border-black/15 hover:border-black'
+                    ? 'bg-black text-white dark:bg-white dark:text-black'
+                    : 'bg-transparent text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white border border-black/15 dark:border-white/15 hover:border-black dark:hover:border-white'
                 }`}
               >
                 {tab === 'completed' ? 'Completed' : 'Ongoing'}
-                <span className={`ml-2 text-xs font-bold transition-colors duration-300 ${activeTab === tab ? 'text-[#6CAFBF]' : 'text-black/30'}`}>
+                <span className={`ml-2 text-xs font-bold transition-colors duration-300 ${activeTab === tab ? 'text-[#6CAFBF]' : 'text-current opacity-50'}`}>
                   {allProjects.filter(p => p.status === tab).length}
                 </span>
               </button>
             ))}
+            
+            <button
+              onClick={() => navigate('/interiors')}
+              className="relative px-6 py-3 text-sm font-bold tracking-widest uppercase transition-all duration-500 rounded-full bg-transparent text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white border border-black/15 dark:border-white/15 hover:border-black dark:hover:border-white flex items-center gap-2 group"
+            >
+              Inside Mayuri Homes
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity -rotate-45">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
           </div>
 
           <p className="text-black/50 text-sm md:text-base font-medium max-w-xs leading-relaxed">
@@ -247,9 +234,8 @@ const Projects = () => {
       {filtered.length > 0 && (
         <div
           ref={addCard}
-          className="px-4 md:px-[6vw] mt-[6vh] group cursor-none"
-          onMouseEnter={() => setHoveredCard(filtered[0].id)}
-          onMouseLeave={() => setHoveredCard(null)}
+          className="px-4 md:px-[6vw] mt-[6vh] group cursor-pointer"
+          onClick={() => navigate(`/project/${filtered[0].id}`)}
           key={`feature-${activeTab}`}
         >
           <div className="relative w-full h-[60vh] md:h-[75vh] overflow-hidden rounded-sm bg-black">
@@ -322,10 +308,9 @@ const Projects = () => {
           <div
             key={project.id}
             ref={addCard}
-            className="group relative overflow-hidden rounded-sm cursor-none"
+            className="group relative overflow-hidden rounded-sm cursor-pointer"
             style={{ height: index === 0 ? '55vh' : '45vh' }}
-            onMouseEnter={() => setHoveredCard(project.id)}
-            onMouseLeave={() => setHoveredCard(null)}
+            onClick={() => navigate(`/project/${project.id}`)}
           >
             <img
               src={project.img}
@@ -362,9 +347,7 @@ const Projects = () => {
           <div
             key={`feat-img-${imgIdx}`}
             ref={addCard}
-            className="group relative overflow-hidden rounded-sm cursor-none h-[45vh]"
-            onMouseEnter={() => setHoveredCard(`feat-${imgIdx}`)}
-            onMouseLeave={() => setHoveredCard(null)}
+            className="group relative overflow-hidden rounded-sm cursor-pointer h-[45vh]"
           >
             <img
               src={imgUrl}
@@ -406,40 +389,6 @@ const Projects = () => {
       </div>
 
 
-      {/* ══════════════════════════════════════════════
-          CURSOR FOLLOWER IMAGE
-      ════════════════════════════════════════════════ */}
-      <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 w-[220px] h-[160px] pointer-events-none z-[999] rounded-sm overflow-hidden shadow-2xl opacity-0"
-        style={{ transformOrigin: 'center', willChange: 'transform, opacity' }}
-      >
-        <div ref={cursorImgRef} className="w-full h-full relative bg-gray-900">
-          {allProjects.map(p => (
-            <img
-              key={p.id}
-              src={p.thumb || p.img}
-              alt={p.name}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-400 ${hoveredCard === p.id ? 'opacity-100' : 'opacity-0'}`}
-            />
-          ))}
-          {/* Gallery images thumb support */}
-          {filtered[0]?.images?.map((imgUrl, idx) => (
-            <img
-              key={`feat-thumb-${idx}`}
-              src={imgUrl}
-              alt="Gallery Preview"
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-400 ${hoveredCard === `feat-${idx}` ? 'opacity-100' : 'opacity-0'}`}
-            />
-          ))}
-        </div>
-        <div className="absolute inset-0 bg-black/15" />
-        <div className="absolute bottom-3 left-3 right-3">
-          <span className="text-white text-[10px] tracking-widest uppercase font-bold block">
-            {allProjects.find(p => p.id === hoveredCard)?.label || (typeof hoveredCard === 'string' && hoveredCard.startsWith('feat') ? filtered[0].label : '')}
-          </span>
-        </div>
-      </div>
     </section>
   );
 };
