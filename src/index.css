@@ -1,7 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-blue: #8BC7D8;
+  --color-brand-bg: #F5F5F3;
+  --color-brand-dark: #111111;
+}
+
 /* Enable class-based manual dark mode toggling */
 @custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 12vh;
+}
 
 @font-face {
   font-family: Magtis;
